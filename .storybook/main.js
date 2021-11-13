@@ -1,27 +1,40 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  stories: ['../src/**/*.stories.tsx'],
+  stories: ["../src/**/*.stories.tsx"],
   addons: [
     {
-      name: '@storybook/preset-create-react-app',
+      name: "@storybook/preset-create-react-app",
       options: {
         craOverrides: {
-          fileLoaderExcludes: ['less'],
+          fileLoaderExcludes: ["less"],
         },
       },
     },
-    '@storybook/addon-actions',
-    '@storybook/addon-links',
+    "@storybook/addon-actions",
+    "@storybook/addon-links",
   ],
   webpackFinal: async (config) => {
     config.module.rules.push({
       test: /\.(ts|tsx)$/,
       use: [
         {
-          loader: require.resolve('babel-loader'),
+          loader: require.resolve("babel-loader"),
           options: {
-            presets: [require.resolve('babel-preset-react-app')],
+            presets: [require.resolve("babel-preset-react-app")],
+          },
+        },
+        {
+          loader: require.resolve("react-docgen-typescript-loader"),
+          options: {
+            // 将枚举或者联合类型转换成字符串形式，避免字符串字面量显示别名。
+            shouldExtractLiteralValuesFromEnum: true,
+            propFilter: (prop) => {
+              if (prop.parent) {
+                return !prop.parent.fileName.includes("node_modules");
+              }
+              return true;
+            },
           },
         },
       ],
@@ -30,11 +43,11 @@ module.exports = {
     config.module.rules.push({
       test: /\.less$/,
       loaders: [
-        'style-loader',
-        'css-loader',
+        "style-loader",
+        "css-loader",
         // 'less-loader'
         {
-          loader: 'less-loader',
+          loader: "less-loader",
           options: {
             lessOptions: {
               // strictMath: true,
@@ -44,8 +57,12 @@ module.exports = {
           },
         },
       ],
-      include: [path.resolve(__dirname, '../src'), /[\\/]node_modules[\\/].*antd/],
+      include: [
+        path.resolve(__dirname, "../src"),
+        /[\\/]node_modules[\\/].*antd/,
+      ],
     });
+    config.resolve.extensions.push(".ts", ".tsx");
 
     return config;
   },

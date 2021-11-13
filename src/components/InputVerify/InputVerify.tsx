@@ -14,7 +14,15 @@ export interface InputVerifyProps extends InputProps {
   codeClassname?: string;
 
 }
-
+/**
+ * 带验证码功能的输入组件，适用于要发送验证码的场景。
+ *
+ * ### 如何引用
+ *
+ * ~~~javascript
+ * import { InputVerfiy } from 'ii-admin-base'
+ * ~~~
+ */
 export const InputVerify: FC<InputVerifyProps> = (props) => {
   const { sendCode, countDown, initCodeText, reCodeText, codeClassname, ...restProps } = props
   const [codeText, setCodeText] = useState(initCodeText);
@@ -26,11 +34,11 @@ export const InputVerify: FC<InputVerifyProps> = (props) => {
       setCodeText(reCodeText)
       setCodeStatus(false)
 
-    }else {
+    } else {
       setCodeText(`${count} s`)
-      const newTimer: ReturnType<typeof setTimeout>=setTimeout(() => {
+      const newTimer: ReturnType<typeof setTimeout> = setTimeout(() => {
         handleCountDown(newTimer, count - 1)
-      },1000)
+      }, 1000)
     }
   }
 
@@ -57,4 +65,4 @@ InputVerify.defaultProps = {
   initCodeText: '发送验证码',
   reCodeText: '重新发送'
 }
-export default InputVerify
+export default InputVerify;
