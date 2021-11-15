@@ -1,18 +1,45 @@
 {
   "name": "ii-admin-base",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "description": "A library of react components, which mainly stores components that can be reused by all admin",
+  "author": "XiaoZhaoXia",
+  "license": "MIT",
+  "keywords": [
+    "React",
+    "Component"
+  ],
+  "homepage": "https://github.com/XiaoZhaoxiaaa/i-admin-components",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XiaoZhaoxiaaa/i-admin-components.git"
+  },
+  "files": [
+    "build"
+  ],
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build:ts": "tsc -p tsconfig.build.json",
+    "build:css": "lessc ./src/styles/index.less ./dist/index.css",
+    "build": "npm run clean && npm run build:ts && npm run build:css",
+    "clean": "rimraf ./dist",
     "test": "react-scripts test --env=jest-environment-jsdom",
-
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9909 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint --ext js,ts,tsx, src --max-warnings 5"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "peerDependencies": {
+    "antd": ">= 4.3.5",
+    "react": ">= 16.8.0",
+    "react-dom": ">= 16.8.0"
   },
   "browserslist": {
     "production": [
@@ -53,6 +80,7 @@
     "react-docgen-typescript-loader": "^3.7.2",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
+    "rimraf": "^3.0.2",
     "style-loader": "^1.2.1",
     "typescript": "~3.7.2"
   }
