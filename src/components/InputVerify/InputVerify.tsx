@@ -51,9 +51,11 @@ export const InputVerify: FC<InputVerifyProps> = (props) => {
 
   const codeCls = classNames('i-verify-button', codeClassname, { 'i-verify-button-disable': codeStatus })
   return (
-    <Input {...restProps} suffix={
-      <span className={codeCls} onClick={handleCodeClick}>{codeText}</span>
-    }
+    <Input {...restProps}
+      data-testid="test-input-verify"
+      suffix={
+        <span className={codeCls} onClick={handleCodeClick}>{codeText}</span>
+      }
     >
     </Input>
   )
